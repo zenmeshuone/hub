@@ -1,0 +1,249 @@
+Ga!E-urGv2%M
+改密码 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+启动服务器mysql -u root -p
+启动服务器 net start mysql
+展示库 show databases；
+删除库 drop database 库名；
+增加库 create database 库名；
+
+
+
+
+
+
+
+创建一个目录
+在创建目录下打开cmd
+输入命令 django-admin startproject 项目名称  （创建项目）
+
+命令tree. /F   查看目录层级
+
+配置数据库
+在__init__.py文件中输入 
+     import pymysql
+    pymysql.install_as_MySQLdb()
+ 
+配置 setting.py文件 
+DATABASES：
+         'ENGINE': 'django.db.backends.mysql',
+        'NAME': "sunck",
+        'USER':'root',
+        'PASSWORD':'password',
+        'HOST':'localhost',
+        'PORT':'3306',
+
+在每个项目中可创建多个应用，每个应用进行一种应用
+在创建目录下的project目录下打开cmd
+输入命令 python manage.py startapp app名称
+
+admin.py      站点配置
+models.py    模型
+views.py      视图
+
+激活app
+在setting.py文件中的
+INSTALLED_APPS下添加
+'app名称',
+
+INSTALLED_APPS = [
+    ‘app名称’，
+]
+
+
+定义模型
+    在models.py 文件中写入模型
+   定义的模型要继承models.Model类
+   class Grades (models.Model):
+            函数名 = models.类型（）
+        CharField()   定义字符型
+       DateTimeField()    定义时间型
+       IntegerField()      数字型
+       BooleanField()     布尔值  不能为空
+    关联外键
+     sgrade  = models.ForeignKey("Grades",on_delete=models.CASCADE )
+
+
+数据库增加迁移文件
+    在有manage.py文件下执行cmd
+  输入命令  python manage.py makemigrations
+
+   在migrations文件下生成一个迁移文件，此时数据库中没有生成数据表
+
+迁移文件时生成数据表
+打开cmd 
+   输入命令python manage.py migrate  
+   (执行迁移)
+   执行完后   sunck文件中生成表  
+数据库中
+use sunck; 
+show table; 查看目录
+ 
+在数据库命令行中输入 desc myapp_Grades;或者desc myapp_Students;
+  查看目录
+ 查看数据
+ 输入命令
+  select * from myapp_students; 
+
+
+
+python manage.py shell
+引入包
+from myapp.models import Grades.Students
+from django.utils import timezone
+from datetime import *
+
+
+添加数据
+   grade1= Grades（）
+   grade1.gname = 名字
+   grade1.gdate   = 时间
+   grate1.save（）   （保存数据）
+   grate1.delete（）（删除数据，物理删除）
+  查看数据输入命令 
+类名.objects.all()    查看所有
+类名.objects.get(pk=id值)   查看指定id的数据
+或者、
+stu3 = grade1.students_set.create(sname=u'  '，sgender=Ture，scontend=u' ' )
+
+mysql查看数据输入命令
+ select * from myapp_students;
+
+外键设置
+grades1 = Grades.objects.get(pk=1)
+sun = students()
+sun.fsdfasdfgf = grades1
+
+fsdfasdfgf_id = pk值
+
+启动数据库net start mysql
+启动服务器 输入python manage.py runserver
+
+admin站点管理  在setting.py 文件中INSTALLED_APPS添加 django.contrib.admin
+  创建管理员用户 python manage.py createsuperuser （默认用户名）
+
+ 汉化 setting.py文件中LANGUAGE_CODE='zh-Hans'
+                                 TIME_ZONE＝＇Asia／Shanghai＇
+
+管理数据表   主要修改admin文件
+    from .models import Grades,Students
+
+   #注册
+   admin.site.register(Grades)
+
+   admin.site.register(Students)
+ 
+修改管理页面
+class GradesAdmin(admin.ModelAdmin)
+    #列表属性
+    list_display = [] 显示字段   小写 并且是类里有的  
+    list_filter = []     过滤字段
+    list_per_page =  分页 每多少条就是多少页
+    search_fields = []  查找字段
+    fields = []  增加，文件
+    fieldsets = [
+（“名称”，{“fields":['gname','gboynum','ggirlnum',]}）
+ ( “名称”，{“fields":['isDelete']})
+
+]  给属性分组与fields不能同时使用
+ 
+ 在创建班级是可以直接添加学生
+class StudentsInfo(admin.TabularInline):
+    model = Students
+    extra = 2
+
+
+视图的基本定义
+
+在myapp下的views.py文件中定义视图
+from django.http import  HttpResponse
+def index(request):
+    return  HttpResponse("sdjkflksdjflkasdsdf")
+
+修改project目录下的urls.py文件
+from django.conf.urls import url ,include
+from django.contrib import admin
+    url(r'^', include('myapp.urls')),
+
+在myapp下的urls.py
+   添加
+
+模板
+创建一个目录
+在创建目录下打开cmd
+输入命令 django-admin startproject 项目名称  （创建项目）
+配置数据库
+在__init__.py文件中输入 
+     import pymysql
+    pymysql.install_as_MySQLdb()
+ 
+配置 setting.py文件 
+	DATABASES：
+    	     'ENGINE': 'django.db.backends.mysql',
+    	    'NAME': "sunck",
+     	   'USER':'root',
+    	    'PASSWORD':'password',
+     	   'HOST':'localhost',
+     	   'PORT':'3306',
+
+输入命令 python manage.py startapp app名称
+激活app
+在setting.py文件中的
+	INSTALLED_APPS = [
+  	  ‘app名称’，
+	]
+输入命令    python manage.py makemigrations
+输入命令    python manage.py migrate 
+启动服务器python manage.py runserver
+创建页面
+在project目录下创建templates->myApp->.html文件
+
+在settings文件里
+	TEMPLATES = [
+     	   'BACKEND': 'django.template.backends.django.DjangoTemplates',
+     	   'DIRS': [os.path.join(BASE_DIR,'templates')],
+
+在myApp文件下的view.py文件写入
+
+	from django.http import  HttpResponse
+	def  index(request):
+  	  return  HttpResponse("sdjkflksdjflkasdsdf")
+	def new(request):
+  	  return render(request,'myapp/new1.html')
+
+在project下的url.py文件下
+
+	from django.conf.urls import url,include
+	from django.contrib import admin
+	urlpatterns = [
+  	  url(r'^admin/', admin.site.urls),
+  	  url(r'^',include('myApp.urls'))
+	]
+
+在myApp文件下创建urls.py文件
+
+	from django.conf.urls import url
+	from . import views
+	urlpatterns = [
+ 	   url(r'^$',views.index)
+	]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
