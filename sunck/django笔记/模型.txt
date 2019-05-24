@@ -1,0 +1,100 @@
+定义模型：
+模型，属性，表，字段间的关系
+一个模型类在数据库中对应一张表，在模型类中定义的属性对应该模型对应的表中的一个字段
+
+自定义查询集类
+class 类名（models.Manager）:
+	def get_queryset(self):
+		return super(类名.self).get_queryset().filter(isDelete=False)
+class 类名一（models.Model）:
+	stuobj = 类名（）
+
+@classmethod
+    def createStudent(cls,name,age,gender,contend,grade,isD=False):
+        stu = cls(sname = name,sage = age,sgender = gender,scontend = contend,sgrade = grade,
+isDelete = isD)
+        return stu
+
+查询集
+1.在管理器上调用过滤器返回查询集
+2.查询集经过过滤器后返回新的查询集，可以写成链式调用
+3.惰性执行：创建查询集不会带来任何数据库的访问，直到调用数据时，才会访问
+4.直接访问 的情况：1.迭代 2.序列化3.  与if合用
+5.返回查询集的方法称为过滤器：1. all（）2.filter(键=值)3.exclude（）过滤掉符合条件的数据 
+    4.order_by（）排序5.values（）一条数据就是一个对象（字典），返回一个列表
+6.返回单个数据：1.get() 返回一个满足条件的对象 （没找到符合条件的模型对象，会引发DoesNotExist异常，找到多条也会引发异常）
+	          2.count() 返回查询集中的对象个数 、
+	          3.first() 返回第一个
+	          4.last() 返回最后一个 
+	          5.exists() 判断查询集中是否有数据，是返回Ture 
+7.限制查询集：查询集返回列表，用使用下标进行限制，等于sql语句中的limit 0,3；
+8.查询集的缓存：1.概述：每个查询集都包含一个缓存，来最小化对数据库的访问。
+	          2.在新建的查询集中，缓存首次为空，第一次对查询集求值，会发生数据缓存，django会将查询出来的数据做一个缓存，并返回查询集，以后的查询集直接使用查询集的缓存
+9.字段查询：1.概述：实现了sql中的where语句，作为方法filter（），exclude（）get（）的参数
+		语句：属性名称 __ 比较运算符(>,<)=值   (大于小于值)
+		外键：属性名_id
+		转义：like语句中使用%是匹配占位，匹配数据中的%（where like '\%'）  filter(sname__contains='%')
+	2.比较运算符 ：exact 判断，大小写敏感，类似filter（）
+		contains 是否包含，大小写敏感
+		starswith，endswith  以value开头或结尾，大小写敏感   在开头加上i就不区分大小写
+		isnull，isnotnull  是否为空
+		in   是否包含在范围内  filter(pk__in=[2,4,6,8,10])
+		gt,gte,lt,lte  对应大于，大于等于，小于，小于等于
+		year,month,week_day,hour,minute,second,  日期
+		跨关联查询 ：
+		查询快捷：pk  ：代表主键
+	3.聚合函数 ：使用aggregate()函数返回聚合函数的值
+		  Avg
+		Count
+		Max
+		Min
+		Sum('属性名')
+	4.F对象  ：可以使用模型的A属性和B属性进行比较   ggirl__gt=F('gboy')
+		支持F对象的算术运算
+	5.Q对象 ：概述：过滤器的方法中的关键参数，条件为And模式    (Q('sname') |  Q('sname ') )  或的关系   ~Q表示取反
+		需求：进行or查询
+		解决：使用Q对象
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
