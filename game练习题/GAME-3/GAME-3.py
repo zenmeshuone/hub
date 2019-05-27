@@ -13,7 +13,7 @@ Green = (0, 255, 0)
 Blue = (0, 0, 255)
 BLACK = (0, 0, 0)
 FPS = 40
-Num_Random = 100
+Num_Random = 99
 
 
 # 退出

@@ -33,7 +33,7 @@ class SkierClass(pygame.sprite.Sprite):
     def move(self):
         self.rect.centerx += self.speed[0]
         self.rect.centerx = max(20,self.rect.centerx)
-        self.rect.centerx = min(620,self.rect.centerx)
+        self.rect.centerx = min(619,self.rect.centerx)
 
 #障碍物类
 #Input:
